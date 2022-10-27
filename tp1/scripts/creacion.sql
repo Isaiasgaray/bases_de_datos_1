@@ -8,6 +8,7 @@ GO
 
 USE cine_paraiso
 
+
 CREATE TABLE ciudad (
 	ciudad_id INTEGER PRIMARY KEY IDENTITY,
 	nombre VARCHAR(50)
@@ -34,6 +35,7 @@ CREATE TABLE butaca (
 CREATE TABLE funcion ( 
 	funcion_id INTEGER PRIMARY KEY IDENTITY,
 	fecha_hora DATETIME,
+	pelicula_id INTEGER,
 	sala_id INTEGER FOREIGN KEY REFERENCES sala(sala_id)
 )
 
@@ -41,6 +43,7 @@ CREATE TABLE pelicula (
 	pelicula_id INTEGER PRIMARY KEY IDENTITY,
 	nombre VARCHAR(100),
 	subtitulado BIT,
+	clasificacion_id INTEGER
 )
 
 CREATE TABLE genero (
@@ -58,3 +61,21 @@ CREATE TABLE clasificacion (
 	nombre VARCHAR(50),
 	descripcion VARCHAR(100)
 )
+
+CREATE TABLE compra (
+	compra_id INTEGER PRIMARY KEY IDENTITY,
+	butaca_id  INTEGER FOREIGN KEY REFERENCES butaca(butaca_id),
+	funcion_id INTEGER FOREIGN KEY REFERENCES funcion(funcion_id),
+	fecha_hora DATETIME
+)
+
+ALTER TABLE funcion 
+ADD CONSTRAINT FK_funcion_pelicula_id 
+FOREIGN KEY (pelicula_id) 
+REFERENCES pelicula(pelicula_id)
+
+ALTER TABLE pelicula  
+ADD CONSTRAINT FK_pelicula_clasificacion_id 
+FOREIGN KEY (clasificacion_id) 
+REFERENCES clasificacion(clasificacion_id)
+
