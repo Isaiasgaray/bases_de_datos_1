@@ -52,8 +52,8 @@ CREATE TABLE genero (
 )
 
 CREATE TABLE genero_pelicula (
-	pelicula_id INTEGER FOREIGN KEY REFERENCES pelicula(pelicula_id),
-	genero_id INTEGER FOREIGN KEY REFERENCES genero(genero_id)
+	pelicula_id INTEGER NOT NULL FOREIGN KEY REFERENCES pelicula(pelicula_id),
+	genero_id INTEGER NOT NULL FOREIGN KEY REFERENCES genero(genero_id)
 )
 
 CREATE TABLE clasificacion (
@@ -79,3 +79,6 @@ ADD CONSTRAINT FK_pelicula_clasificacion_id
 FOREIGN KEY (clasificacion_id) 
 REFERENCES clasificacion(clasificacion_id)
 
+ALTER TABLE genero_pelicula 
+ADD CONSTRAINT PK_genero_pelicula
+PRIMARY KEY (pelicula_id, genero_id)
