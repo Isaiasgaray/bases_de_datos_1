@@ -18,3 +18,4 @@ CREATE TABLE sucursal (
 	ciudad_id INTEGER FOREIGN KEY REFERENCES ciudad(ciudad_id)
 )
 
+hola
