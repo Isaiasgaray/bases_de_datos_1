@@ -143,15 +143,3 @@ VALUES	('A1', 1), ('A2', 1), ('A3', 1), ('A4', 1), ('A5', 1),
 	('C1', 3), ('C2', 3), ('C3', 3), ('C4', 3), ('C5', 3), 
 	('D1', 3), ('D2', 3), ('D3', 3), ('D4', 3), ('D5', 3), 
 	('E1', 3), ('E2', 3), ('E3', 3), ('E4', 3), ('E5', 3)
-
-SELECT nombre
-FROM pelicula 
-WHERE pelicula_id IN (
-	SELECT pelicula_id
-	FROM genero_pelicula
-	WHERE genero_id = (
-		SELECT genero_id
-		FROM genero
-		WHERE nombre = 'Drama'
-	)
-)
