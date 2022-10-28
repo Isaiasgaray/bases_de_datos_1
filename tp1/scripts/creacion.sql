@@ -41,9 +41,9 @@ CREATE TABLE funcion (
 
 CREATE TABLE pelicula (
 	pelicula_id INTEGER PRIMARY KEY IDENTITY,
-	nombre VARCHAR(100),
+	nombre VARCHAR(50),
 	subtitulado BIT,
-	clasificacion_id VARCHAR(3)
+	clasificacion_id INTEGER
 )
 
 CREATE TABLE genero (
@@ -57,7 +57,8 @@ CREATE TABLE genero_pelicula (
 )
 
 CREATE TABLE clasificacion (
-	clasificacion_id VARCHAR(3) PRIMARY KEY,
+	clasificacion_id INTEGER PRIMARY KEY IDENTITY,
+	nombre VARCHAR(3),
 	descripcion VARCHAR(50)
 )
 
@@ -84,84 +85,46 @@ PRIMARY KEY (pelicula_id, genero_id)
 
 
 INSERT INTO  ciudad (nombre) 
-VALUES ('Rosario')
-
-INSERT INTO  ciudad (nombre) 
-VALUES ('Cordoba')
-
-INSERT INTO  ciudad (nombre) 
-VALUES ('La Plata')
-
-INSERT INTO  sucursal(nombre, ciudad_id) 
-VALUES ('Monumental', 1)
+VALUES ('Rosario'),
+	   ('Cordoba'),
+	   ('La Plata')
 
 
 INSERT INTO  sucursal(nombre, ciudad_id) 
-VALUES ('EL Pirata', 2)
-
-
-INSERT INTO  sucursal(nombre, ciudad_id) 
-VALUES ('Lobbo', 3)
-
+VALUES ('Monumental', 1),
+	   ('El Pirata', 2),
+	   ('Lobo', 3)
+	 
 INSERT INTO  sala(sucursal_id, numero) 
-VALUES (1, '01')
-
-INSERT INTO  sala(sucursal_id, numero) 
-VALUES (1, '02')
-
-INSERT INTO  sala(sucursal_id, numero) 
-VALUES (1, '03')
-
-
-INSERT INTO  sala(sucursal_id, numero) 
-VALUES (2, '01')
-
-INSERT INTO  sala(sucursal_id, numero) 
-VALUES (2, '02')
-
-INSERT INTO  sala(sucursal_id, numero) 
-VALUES (2, '03')
-
-
-
-INSERT INTO  sala(sucursal_id, numero) 
-VALUES (3, '01')
-
-INSERT INTO  sala(sucursal_id, numero) 
-VALUES (3, '02')
-
-INSERT INTO  sala(sucursal_id, numero) 
-VALUES (3, '03')
+VALUES (1, '01'), (1, '02'), (1, '03'),
+	   (2, '01'), (2, '02'), (2, '03'),
+	   (3, '01'), (3, '02'), (3, '03')
 
 INSERT INTO  genero(nombre) 
-VALUES ('ciencia ficcion'), ('drama'), ('terror'), ('accion'), ('suspenso') 
+VALUES ('Ciencia ficción'),
+	   ('Drama'),
+	   ('Terror'),
+	   ('Acción'),
+	   ('Suspenso') 
 
-INSERT INTO  clasificacion(clasificacion_id) 
-VALUES ('ATP'), ('+13'), ('+16'), ('+18')
-
+INSERT INTO  clasificacion(nombre) 
+VALUES ('ATP'),
+	   ('+13'),
+	   ('+16'),
+	   ('+18')
 
 INSERT INTO  pelicula(nombre, subtitulado, clasificacion_id)
-VALUES  ('Argentina 1985', 0, '+13'), ('2001: Odisea del espacio', 1, '+13'),
-		('Alien', 1, '+18'), ('Gladiador', 1, '+16'), ('Secreto de sus ojos', 0, '+13')    
+VALUES  ('Argentina 1985', 0, 2),
+		('2001: Odisea del espacio', 1, 2),
+		('Alien', 1, 4),
+		('Gladiador', 1, 3),
+		('Secreto de sus ojos', 0, 2)    
 
 INSERT INTO genero_pelicula(pelicula_id, genero_id) 
-VALUES (1, 2), (2, 1), (2, 5), (3, 1), (3, 3), (4, 4), (4, 2), (5, 2)   			
-			
-INSERT INTO funcion(fecha_hora, pelicula_id, sala_id) 
-VALUES ('2022-24-10 17:30', 1, 2)
-
---INSERT INTO funcion(fecha_hora, pelicula_id, sala_id) 
---VALUES (, 1, 2)
-
-
---SELECT *
---FROM funcion
-
---select GETDATE()
-
-
-select *
-from funcion
-
+VALUES (1, 2), 
+	   (2, 1), (2, 5), 
+	   (3, 1), (3, 3), 
+	   (4, 4), (4, 2),
+	   (5, 2)   			
 
 
