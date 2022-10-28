@@ -118,7 +118,7 @@ VALUES  ('Argentina 1985', 0, 2),
 		('2001: Odisea del espacio', 1, 2),
 		('Alien', 1, 4),
 		('Gladiador', 1, 3),
-		('Secreto de sus ojos', 0, 2)    
+		('El secreto de sus ojos', 0, 2)    
 
 INSERT INTO genero_pelicula (pelicula_id, genero_id) 
 VALUES (1, 2), 
@@ -143,3 +143,15 @@ VALUES	('A1', 1), ('A2', 1), ('A3', 1), ('A4', 1), ('A5', 1),
 	('C1', 3), ('C2', 3), ('C3', 3), ('C4', 3), ('C5', 3), 
 	('D1', 3), ('D2', 3), ('D3', 3), ('D4', 3), ('D5', 3), 
 	('E1', 3), ('E2', 3), ('E3', 3), ('E4', 3), ('E5', 3)
+
+SELECT nombre
+FROM pelicula 
+WHERE pelicula_id IN (
+	SELECT pelicula_id
+	FROM genero_pelicula
+	WHERE genero_id = (
+		SELECT genero_id
+		FROM genero
+		WHERE nombre = 'Drama'
+	)
+)
