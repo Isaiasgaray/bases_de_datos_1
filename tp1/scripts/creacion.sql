@@ -115,7 +115,7 @@ VALUES ('ATP'),
 	   ('+18')
 
 INSERT INTO  pelicula (nombre, subtitulado, clasificacion_id)
-VALUES  ('Argentina 1985', 0, 2),
+VALUES  ('Argentina, 1985', 0, 2),
 		('2001: Odisea del espacio', 1, 2),
 		('Alien', 1, 4),
 		('Gladiador', 1, 3),
@@ -168,10 +168,17 @@ VALUES	('A1', 1), ('A2', 1), ('A3', 1), ('A4', 1), ('A5', 1),
 
 INSERT INTO funcion (fecha_hora, pelicula_id, sala_id)
 VALUES  ('2022-10-24 12:30:00', 1, 2),
+		('2022-10-24 15:00:00', 1, 1),
+		('2022-10-24 18:00:00', 1, 3),
 		('2022-10-25 22:00:00', 3, 1),
 		('2022-10-28 20:30:00', 4, 3),
 		('2022-11-01 21:00:00', 5, 3),
-		('2022-11-02 18:45:00', 2, 2)
+		('2022-11-02 18:45:00', 2, 2),
+		('2022-11-02 18:45:00', 2, 7),
+		('2022-11-03 20:00:00', 1, 7),
+		('2022-11-02 16:45:00', 3, 4),
+		('2022-10-29 13:00:00', 2, 4)
+
 
 -- TODO: Agregar constraint para que butaca_id este en funcion_id
 INSERT INTO compra (butaca_id, funcion_id, fecha_hora)
