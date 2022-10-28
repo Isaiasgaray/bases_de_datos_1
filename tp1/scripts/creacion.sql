@@ -88,7 +88,7 @@ PRIMARY KEY (pelicula_id, genero_id)
 -- Inserción de datos.
 INSERT INTO  ciudad (nombre) 
 VALUES ('Rosario'),
-	   ('Cordoba'),
+	   ('Córdoba'),
 	   ('La Plata')
 
 INSERT INTO sucursal(nombre, ciudad_id) 
