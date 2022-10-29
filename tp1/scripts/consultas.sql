@@ -73,4 +73,119 @@ AND CAST(fecha_hora AS DATE) = '2022-10-24'
 AND pelicula_id = (SELECT pelicula_id 
 					FROM pelicula
 					WHERE nombre = 'Argentina, 1985')
-					
+
+/*
+d. ¿Cuáles son los horarios disponibles para ver la pelı́cula 
+   Argentina, 1985 en una fecha determinada (fije la fecha) 
+   para cada sucursal? Muestre estos resultados ordenados 
+   cronológicamente de forma creciente. 	
+*/
+SELECT su.nombre sucursal, CAST(f.fecha_hora AS TIME) hora 
+FROM funcion f
+INNER JOIN sala s
+ON s.sala_id = f.sala_id 
+INNER JOIN sucursal su
+ON su.sucursal_id = s.sucursal_id 
+WHERE CAST(f.fecha_hora AS DATE) = '2022-10-24'
+AND f.pelicula_id =
+(SELECT pelicula_id
+ FROM pelicula
+ WHERE nombre = 'Argentina, 1985')
+ORDER BY hora 
+ 
+/*
+e. ¿Cuáles pelı́culas de ciencia ficción hay en 
+   cartelera la semana del 24 de octubre de 2022
+   en la sucursal Rosario?
+*/
+SELECT DISTINCT p.nombre  
+FROM funcion f
+INNER JOIN pelicula p 
+ON p.pelicula_id = f.pelicula_id
+WHERE sala_id IN (
+	SELECT sala_id
+	FROM sala
+	WHERE sucursal_id = (
+		SELECT sucursal_id 
+		FROM sucursal
+		WHERE sucursal_id = (
+			SELECT ciudad_id
+			FROM ciudad
+			WHERE nombre = 'Rosario'
+		)
+	)
+)
+AND CAST(fecha_hora AS DATE) BETWEEN 
+	'2022-10-24' AND DATEADD(dd, 7, '2022-10-24')
+AND p.pelicula_id IN (
+	SELECT pelicula_id
+	FROM genero_pelicula
+	WHERE genero_id IN
+		(SELECT genero_id
+		 FROM genero
+		 WHERE nombre = 'Ciencia ficción'))
+
+/*
+f. ¿Cuáles son las butacas vendidas para ver 
+   Argentina, 1985 en Córdoba en una función 
+   determinada (fije la función)?
+*/
+
+SELECT b.butaca_id, b.posicion 
+FROM compra c
+INNER JOIN butaca b 
+ON c.butaca_id = b.butaca_id 
+WHERE c.funcion_id = (
+	SELECT TOP 1 funcion_id 
+	FROM funcion
+	WHERE pelicula_id = 
+	(SELECT pelicula_id
+	 FROM pelicula
+	 WHERE nombre = 'Argentina, 1985')
+	AND sala_id IN (
+		SELECT sala_id 
+		FROM sala
+		WHERE sucursal_id IN (
+			SELECT sucursal_id
+			FROM sucursal
+			WHERE sucursal_id IN (
+				SELECT ciudad_id 
+				FROM ciudad
+				WHERE nombre = 'Córdoba' 
+			)
+		)
+	)
+)
+
+/*
+g. ¿Cuáles son las butacas libres para ver 
+   Argentina, 1985 en Córdoba en una función 
+   determinada (fije la función)?
+*/
+
+DEClARE @funcion_fija AS INTEGER = 12
+SELECT butaca_id, posicion
+FROM butaca
+WHERE sala_id = (
+	SELECT sala_id 
+	FROM funcion
+	WHERE funcion_id = @funcion_fija
+)
+AND butaca_id NOT IN (
+	SELECT butaca_id 
+	FROM compra
+	WHERE funcion_id = @funcion_fija
+)
+
+/*
+h. ¿Cuántas peliculas por género están o 
+	estuvieron en cartelera en el Cine Paraı́so?
+*/
+SELECT g.nombre genero, COUNT(*) total
+FROM genero_pelicula gp 
+INNER JOIN pelicula p 
+ON gp.pelicula_id = p.pelicula_id 
+INNER JOIN genero g 
+ON gp.genero_id = g.genero_id 
+GROUP BY g.nombre 
+ORDER BY 2 DESC
