@@ -1,61 +1,62 @@
 USE cine_paraiso
-/*
-5a) El precio de la entrada depende unicamente de la sucursal.
 
+/*
+Ejercicio 5.
+a. El precio de la entrada depende únicamente de la sucursal.
 ALTER TABLE sucursal 
-ADD precio FLOAT;
+ADD precio FLOAT
 
 UPDATE sucursal
 
 set precio = 200.00
-where sucursal_id = 1;
+where sucursal_id = 1
 
 UPDATE sucursal
 set precio = 250.44
-where sucursal_id = 2;
+where sucursal_id = 2
 
 UPDATE sucursal
 set precio = 350.44
-where sucursal_id = 3;
+where sucursal_id = 3
 */
 
-
--- 5b) El precio de la entrada depende unicamente de la pelicula.
+-- b. El precio de la entrada depende únicamente de la película.
 
 ALTER TABLE pelicula
-ADD precio FLOAT;
+ADD precio FLOAT
+GO
 
 UPDATE pelicula
-set precio = 200.00
-where pelicula_id = 1;
+SET precio = 500.00
+WHERE pelicula_id = 1
 
 UPDATE pelicula
-set precio = 250.44
-where pelicula_id = 2;
+SET precio = 350.00
+WHERE pelicula_id = 2
 
 UPDATE pelicula
-set precio = 350.44
-where pelicula_id = 3;
+SET precio = 350.00
+WHERE pelicula_id = 3
 
 UPDATE pelicula
-set precio = 150.44
-where pelicula_id = 4;
+SET precio = 400.00
+WHERE pelicula_id = 4
 
 UPDATE pelicula
-set precio = 270.44
-where pelicula_id = 5;
+SET precio = 350.00
+WHERE pelicula_id = 5
 
 /*
-5c) El preico de la entrada depende unicamente de la ubicacion de la butaca.
+c. El precio de la entrada depende únicamente de la ubicación de la butaca.
+
 ALTER TABLE butaca
-ADD precio FLOAT;
+ADD precio FLOAT
 
 UPDATE butaca
 set precio = 270.44
-where butuca_id = 1;
+where butuca_id = 1
 
-Para las proximas 19 butacas hacemos el mismo procedimiento cambiando el numero de id de la butaca
+Para las proximas 19 butacas hacemos el mismo procedimiento 
+cambiando el numero de id de la butaca
 */
-
-
 

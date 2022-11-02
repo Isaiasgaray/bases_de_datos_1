@@ -1,5 +1,6 @@
 USE cine_paraiso
 
+-- Ejercicio 4
 /*
 a. ¿Cuántas funciones hay en la sucursal La Plata 
    (no importa si la función ya ocurrió o no)?
@@ -163,19 +164,23 @@ g. ¿Cuáles son las butacas libres para ver
    determinada (fije la función)?
 */
 
-DEClARE @funcion_fija AS INTEGER = 12
 SELECT butaca_id, posicion
 FROM butaca
-WHERE sala_id = (
-	SELECT sala_id 
-	FROM funcion
-	WHERE funcion_id = @funcion_fija
-)
+-- La función fija que elegimos es la función que devuelve TOP 1 de la siguiente query.
+WHERE sala_id = (SELECT sala_id FROM funcion WHERE funcion_id = 
+	(SELECT TOP 1 funcion_id FROM funcion WHERE pelicula_id = 
+	(SELECT pelicula_id FROM pelicula WHERE nombre = 'Argentina, 1985')
+	 AND sala_id IN (SELECT sala_id FROM sala WHERE sucursal_id IN (
+			SELECT sucursal_id FROM sucursal WHERE sucursal_id IN (
+				SELECT ciudad_id FROM ciudad WHERE nombre = 'Córdoba')))))
 AND butaca_id NOT IN (
-	SELECT butaca_id 
-	FROM compra
-	WHERE funcion_id = @funcion_fija
-)
+	SELECT butaca_id FROM compra
+	WHERE funcion_id = 
+	(SELECT TOP 1 funcion_id FROM funcion WHERE pelicula_id = 
+	(SELECT pelicula_id FROM pelicula WHERE nombre = 'Argentina, 1985')
+	 AND sala_id IN (SELECT sala_id FROM sala WHERE sucursal_id IN (
+			SELECT sucursal_id FROM sucursal WHERE sucursal_id IN (
+				SELECT ciudad_id FROM ciudad WHERE nombre = 'Córdoba')))))
 
 /*
 h. ¿Cuántas peliculas por género están o 
@@ -191,9 +196,10 @@ GROUP BY g.nombre
 ORDER BY 2 DESC
 
 
-
 -- Ejercicio 6
--- a. Determine el total recaudado por función.
+/* 
+a. Determine el total recaudado por función.
+*/
 SELECT f.funcion_id, SUM(p.precio)
 FROM compra c 
 INNER JOIN funcion f 
@@ -202,15 +208,27 @@ INNER JOIN pelicula p
 ON f.pelicula_id = p.pelicula_id 
 GROUP BY f.funcion_id, p.precio
 
---b.
+/*
+b. Determine el promedio recaudado por función para cada pelı́cula. 
+   Es decir, si la pelı́cula Argentina, 1985 tuvo dos funciones, 
+   y en una recaudó 1000 pesos, y en la otra recaudó 3000 pesos, 
+   el promedio recaudado por función para esta pelı́cula es 2000 pesos.
+*/
 -- cantidad de funciones por pelicula
 SELECT pelicula_id, COUNT(*) cant_fun 
 FROM funcion f 
 GROUP BY pelicula_id  
 
---d.
+/*
+c. Determine el porcentaje de entradas vendidas por función, 
+   y muestre pelı́cula, sucursal, hora y dı́a, 
+   solo para aquellas en las que se vendió menos del 50 %.
+*/
+
+/*
+d. Determine, para cada pelı́cula, cuál fue la función que más recaudó.
+*/
 SELECT f.funcion_id, SUM(p.precio) precio, p.pelicula_id, p.nombre 
-INTO #temp
 FROM compra c 
 INNER JOIN funcion f 
 ON c.funcion_id = f.funcion_id 
