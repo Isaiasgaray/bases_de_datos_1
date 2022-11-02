@@ -214,10 +214,14 @@ b. Determine el promedio recaudado por función para cada pelı́cula.
    y en una recaudó 1000 pesos, y en la otra recaudó 3000 pesos, 
    el promedio recaudado por función para esta pelı́cula es 2000 pesos.
 */
--- cantidad de funciones por pelicula
-SELECT pelicula_id, COUNT(*) cant_fun 
-FROM funcion f 
-GROUP BY pelicula_id  
+SELECT p.pelicula_id, SUM(p.precio) total, COUNT(DISTINCT f.funcion_id) cant_funciones,
+	   SUM(p.precio) / COUNT(DISTINCT f.funcion_id) promedio
+FROM compra c 
+INNER JOIN funcion f 
+ON f.funcion_id = c.funcion_id  
+INNER JOIN pelicula p 
+ON f.pelicula_id = p.pelicula_id 
+GROUP BY p.pelicula_id 
 
 /*
 c. Determine el porcentaje de entradas vendidas por función, 
@@ -228,15 +232,20 @@ c. Determine el porcentaje de entradas vendidas por función,
 /*
 d. Determine, para cada pelı́cula, cuál fue la función que más recaudó.
 */
-SELECT f.funcion_id, SUM(p.precio) precio, p.pelicula_id, p.nombre 
+SELECT f.funcion_id, SUM(p.precio) precio, p.pelicula_id 
 FROM compra c 
 INNER JOIN funcion f 
 ON c.funcion_id = f.funcion_id 
 INNER JOIN pelicula p 
 ON f.pelicula_id = p.pelicula_id 
-GROUP BY f.funcion_id, p.precio, p.pelicula_id, p.nombre 
+GROUP BY f.funcion_id, p.precio, p.pelicula_id
 
-SELECT pelicula_id, MAX(precio), nombre 
-FROM #temp
-GROUP BY pelicula_id, nombre
+SELECT *--f.funcion_id, SUM(p.precio) precio, p.pelicula_id 
+FROM compra c 
+INNER JOIN funcion f 
+ON c.funcion_id = f.funcion_id 
+INNER JOIN pelicula p 
+ON f.pelicula_id = p.pelicula_id 
+--GROUP BY f.funcion_id, p.precio, p.pelicula_id
+
 
