@@ -189,3 +189,36 @@ INNER JOIN genero g
 ON gp.genero_id = g.genero_id 
 GROUP BY g.nombre 
 ORDER BY 2 DESC
+
+
+
+-- Ejercicio 6
+-- a. Determine el total recaudado por función.
+SELECT f.funcion_id, SUM(p.precio)
+FROM compra c 
+INNER JOIN funcion f 
+ON c.funcion_id = f.funcion_id 
+INNER JOIN pelicula p 
+ON f.pelicula_id = p.pelicula_id 
+GROUP BY f.funcion_id, p.precio
+
+--b.
+-- cantidad de funciones por pelicula
+SELECT pelicula_id, COUNT(*) cant_fun 
+FROM funcion f 
+GROUP BY pelicula_id  
+
+--d.
+SELECT f.funcion_id, SUM(p.precio) precio, p.pelicula_id, p.nombre 
+INTO #temp
+FROM compra c 
+INNER JOIN funcion f 
+ON c.funcion_id = f.funcion_id 
+INNER JOIN pelicula p 
+ON f.pelicula_id = p.pelicula_id 
+GROUP BY f.funcion_id, p.precio, p.pelicula_id, p.nombre 
+
+SELECT pelicula_id, MAX(precio), nombre 
+FROM #temp
+GROUP BY pelicula_id, nombre
+
