@@ -228,26 +228,24 @@ c. Determine el porcentaje de entradas vendidas por función,
    y muestre pelı́cula, sucursal, hora y dı́a, 
    solo para aquellas en las que se vendió menos del 50 %.
 */
-
 SELECT f.funcion_id, f.sala_id, COUNT(DISTINCT c.compra_id) butacas_vendidas,
 	   COUNT(DISTINCT b.butaca_id) total_butacas,
 	   CAST(
 	   (COUNT(DISTINCT c.compra_id) * 100.00) / COUNT(DISTINCT b.butaca_id)
 	   AS DECIMAL(10, 2)) porcentaje_entradas_vendidas,
-	   p.nombre pelicula, p.pelicula_id, f.fecha_hora 
+	   p.nombre pelicula, p.pelicula_id, f.fecha_hora, su.nombre 
 FROM compra c 
 INNER JOIN funcion f 
 ON f.funcion_id = c.funcion_id  
 INNER JOIN sala s 
-ON f.sala_id = f.sala_id
+ON f.sala_id = s.sala_id
 INNER JOIN pelicula p 
 ON f.pelicula_id = p.pelicula_id
---INNER JOIN sucursal su
---ON s.sucursal_id = su.sucursal_id 
+INNER JOIN sucursal su
+ON s.sucursal_id = su.sucursal_id 
 INNER JOIN butaca b 
 ON b.sala_id = f.sala_id 
-WHERE f.funcion_id IS NOT NULL
-GROUP BY f.funcion_id, f.sala_id, p.nombre, p.pelicula_id, f.fecha_hora
+GROUP BY f.funcion_id, f.sala_id, p.nombre, p.pelicula_id, f.fecha_hora, su.nombre 
 HAVING (COUNT(DISTINCT c.compra_id) * 100) / COUNT(DISTINCT b.butaca_id) < 50
 
 /*
