@@ -251,20 +251,33 @@ HAVING (COUNT(DISTINCT c.compra_id) * 100) / COUNT(DISTINCT b.butaca_id) < 50
 /*
 d. Determine, para cada pelı́cula, cuál fue la función que más recaudó.
 */
-SELECT f.funcion_id, SUM(p.precio) precio, p.pelicula_id 
+
+SELECT TOP 1 *
+FROM (
+SELECT f.funcion_id, SUM(p.precio) precio, f.pelicula_id
 FROM compra c 
 INNER JOIN funcion f 
 ON c.funcion_id = f.funcion_id 
 INNER JOIN pelicula p 
 ON f.pelicula_id = p.pelicula_id 
-GROUP BY f.funcion_id, p.precio, p.pelicula_id
+GROUP BY f.funcion_id, p.precio, f.pelicula_id
+) a
+WHERE a.pelicula_id = 4
+ORDER BY a.precio DESC
 
-SELECT *--f.funcion_id, SUM(p.precio) precio, p.pelicula_id 
+
+
+
+
+--_______________________________________________________________
+
+
+
+
+SELECT f.funcion_id, SUM(p.precio) precio, f.pelicula_id
 FROM compra c 
 INNER JOIN funcion f 
 ON c.funcion_id = f.funcion_id 
 INNER JOIN pelicula p 
 ON f.pelicula_id = p.pelicula_id 
---GROUP BY f.funcion_id, p.precio, p.pelicula_id
-
-
+GROUP BY f.funcion_id, p.precio, f.pelicula_id
