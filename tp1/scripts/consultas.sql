@@ -251,20 +251,29 @@ HAVING (COUNT(DISTINCT c.compra_id) * 100) / COUNT(DISTINCT b.butaca_id) < 50
 /*
 d. Determine, para cada pelı́cula, cuál fue la función que más recaudó.
 */
-SELECT f.funcion_id, SUM(p.precio) precio, p.pelicula_id 
-FROM compra c 
-INNER JOIN funcion f 
-ON c.funcion_id = f.funcion_id 
-INNER JOIN pelicula p 
-ON f.pelicula_id = p.pelicula_id 
-GROUP BY f.funcion_id, p.precio, p.pelicula_id
 
-SELECT *--f.funcion_id, SUM(p.precio) precio, p.pelicula_id 
-FROM compra c 
-INNER JOIN funcion f 
-ON c.funcion_id = f.funcion_id 
-INNER JOIN pelicula p 
-ON f.pelicula_id = p.pelicula_id 
---GROUP BY f.funcion_id, p.precio, p.pelicula_id
-
+SELECT b.pelicula_id, MAX(b.recaudacion) recaudacion, MAX(b.funcion_id) funcion
+FROM (
+	SELECT f.funcion_id, SUM(p.precio) recaudacion, p.pelicula_id  --Recaudacion por funcion
+	FROM compra c 
+	INNER JOIN funcion f 
+	ON c.funcion_id = f.funcion_id 
+	INNER JOIN pelicula p 
+	ON f.pelicula_id = p.pelicula_id 
+	GROUP BY f.funcion_id, p.precio, p.pelicula_id 
+	) b
+INNER JOIN (
+	SELECT c.pelicula_id, MAX(c.recaudacion) recaudacion
+	FROM (
+		SELECT f.funcion_id, SUM(p.precio) recaudacion, p.pelicula_id  --Recaudacion por funcion
+		FROM compra c 
+		INNER JOIN funcion f 
+		ON c.funcion_id = f.funcion_id 
+		INNER JOIN pelicula p 
+		ON f.pelicula_id = p.pelicula_id 
+		GROUP BY f.funcion_id, p.precio, p.pelicula_id 
+		) c
+	GROUP BY c.pelicula_id ) a
+	ON a.pelicula_id = b.pelicula_id AND a.recaudacion = b.recaudacion
+GROUP BY b.pelicula_id
 
