@@ -254,7 +254,7 @@ d. Determine, para cada pelı́cula, cuál fue la función que más recaudó.
 
 SELECT b.pelicula_id, MAX(b.recaudacion) recaudacion, MAX(b.funcion_id) funcion
 FROM (
-	SELECT f.funcion_id, SUM(p.precio) recaudacion, p.pelicula_id  --Recaudacion por funcion
+	SELECT f.funcion_id, SUM(p.precio) recaudacion, p.pelicula_id  --Recaudación por función
 	FROM compra c 
 	INNER JOIN funcion f 
 	ON c.funcion_id = f.funcion_id 
@@ -265,7 +265,7 @@ FROM (
 INNER JOIN (
 	SELECT c.pelicula_id, MAX(c.recaudacion) recaudacion
 	FROM (
-		SELECT f.funcion_id, SUM(p.precio) recaudacion, p.pelicula_id  --Recaudacion por funcion
+		SELECT f.funcion_id, SUM(p.precio) recaudacion, p.pelicula_id  --Recaudación por función
 		FROM compra c 
 		INNER JOIN funcion f 
 		ON c.funcion_id = f.funcion_id 
@@ -276,4 +276,3 @@ INNER JOIN (
 	GROUP BY c.pelicula_id ) a
 	ON a.pelicula_id = b.pelicula_id AND a.recaudacion = b.recaudacion
 GROUP BY b.pelicula_id
-

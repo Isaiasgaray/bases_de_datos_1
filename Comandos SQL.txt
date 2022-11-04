@@ -1,0 +1,59 @@
+	#Base de datos
+
+USE master;	#Posiciona en master
+GO	#Ejecuta lo anterior
+CREATE DATABASE <nombre_BD>;	#Crea la base de datos
+
+________________________________________________________
+	#Tabla
+
+USE <nombre_BD>
+CREATE TABLE <nombre_tabla> ( <atributo1> <modificadores>, <atributo2> <modificadores> )	#Crea una tabla en BD
+
+ALTER TABLE <nombre_tabla>	#En la tabla <nombre_tabla>
+ADD <columna> <modificadores;	#Agraga la columna <columna>
+
+ALTER TABLE <nombre_tabla>
+DROP COLUMN <columna>;
+
+DROP TABLE <nombre_tabla>;	#Elimina la tabla <nombre_tabla>
+
+UPDATE <nombre_tabla>
+SET col1 = val1, col2 = val2
+WHERE <condicion>		#Cambia los valores de celda donde se cumpla la condición (ej: COLUMNA_NOMBRE = <NOMBRE>)
+
+DELETE FROM <nombre_tabla>
+WHERE <condicion>		#Elimina las tuplas que cumpla la condicion	
+
+________________________________________________________
+	#Indice
+CREATE INDEX <nombre_indice> ON <nombre_tabla> (<columna>);	#Crea un indice de la <columna>
+
+________________________________________________________
+	#Constrain
+
+________________________________________________________
+	#Insert
+INSERT <nombre_tabla> (<atributo1>, <atributo2>); 	
+VALUES ( <valor1>, <valor2>), ( <valor1>, <valor2>);	#Inserta en <nombre_tabla> los atributos 1 y 2 los valores 1 y 2
+
+________________________________________________________
+	###Modificadores###
+
+VARCHAR (N°)	#Dato de caracteres variable de tamaño N°
+
+INT   		#Numero entero (8 bit)
+
+BIT		#Puede tener 0 o 1
+
+INTEGER 	#
+ 
+PRIMARY KEY	#Valor como clave primaria (no se repiten en la misma tabla)
+
+UNIQUE  	#El campo es único (como las clave primaria sin serlo)
+
+NOT NULL 	#El campo no puede tener valor null
+
+IDENTITY	#Valor autoincremental (aumenta en 1 con respecto al anterior)
+
+
