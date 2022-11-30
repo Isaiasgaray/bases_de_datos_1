@@ -24,7 +24,7 @@ CREATE TABLE pago (
 CREATE TABLE subscripcion (
 	sub_id INTEGER PRIMARY KEY IDENTITY,
 	usuario_id INTEGER FOREIGN KEY REFERENCES usuario(usuario_id),
-	[plan] INT,
+	plan_id INTEGER FOREIGN KEY REFERENCES [plan](plan_id),
 	vencimiento date
 )
 
