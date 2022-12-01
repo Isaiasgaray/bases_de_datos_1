@@ -5,7 +5,7 @@ if exists (select * from sysdatabases where name = 'cine_paraiso')
   drop database cine_paraiso
 
 CREATE DATABASE cine_paraiso 
-GO
+--GO
 
 USE cine_paraiso
 
